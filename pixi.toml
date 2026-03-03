@@ -1,0 +1,21 @@
+[workspace]
+authors = ["Pierce Coyle <dev@piercecoyle.com>"]
+channels = ["robostack-jazzy", "conda-forge"]
+name = "ur3e-control"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+driver = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=192.168.56.101 headless_mode:=true kinematics_params_file:=$PIXI_PROJECT_ROOT/myconfig.yaml"
+mock = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=0.0.0.0 use_mock_hardware:=true launch_dashboard_client:=false kinematics_params_file:=$PIXI_PROJECT_ROOT/myconfig.yaml"
+test = "ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py"
+moveit = "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e"
+
+
+[dependencies]
+ros-jazzy-desktop = ">=0.11.0,<0.12"
+ros-jazzy-ur-robot-driver = ">=3.7.0,<4"
+ros-jazzy-ros2controlcli = ">=4.43.0,<5"
+filelock = ">=3.24.3,<4"
+ros-jazzy-ur-moveit-config = ">=3.7.0,<4"
+ros-jazzy-moveit-py = ">=2.12.4,<3"
