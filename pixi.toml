@@ -11,6 +11,7 @@ mock = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:
 test = "ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py"
 moveit = "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e"
 test_node = "ros2 launch launch_test_node.launch.py"
+build = "pixi run colcon build --symlink-install"
 
 [dependencies]
 ros-jazzy-desktop = ">=0.11.0,<0.12"
