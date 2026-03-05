@@ -1,0 +1,9 @@
+source;share/ur3e_configs/hook/pythonpath.ps1
+source;share/ur3e_configs/hook/pythonpath.dsv
+source;share/ur3e_configs/hook/pythonpath.sh
+source;share/ur3e_configs/hook/ament_prefix_path.ps1
+source;share/ur3e_configs/hook/ament_prefix_path.dsv
+source;share/ur3e_configs/hook/ament_prefix_path.sh
+source;../../build/ur3e_configs/share/ur3e_configs/hook/pythonpath_develop.ps1
+source;../../build/ur3e_configs/share/ur3e_configs/hook/pythonpath_develop.dsv
+source;../../build/ur3e_configs/share/ur3e_configs/hook/pythonpath_develop.sh

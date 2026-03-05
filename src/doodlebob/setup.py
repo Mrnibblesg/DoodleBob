@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'Doodlebob'
+package_name = 'doodlebob'
 
 setup(
     name=package_name,
