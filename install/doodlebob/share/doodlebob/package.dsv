@@ -1,9 +1,0 @@
-source;share/doodlebob/hook/pythonpath.ps1
-source;share/doodlebob/hook/pythonpath.dsv
-source;share/doodlebob/hook/pythonpath.sh
-source;share/doodlebob/hook/ament_prefix_path.ps1
-source;share/doodlebob/hook/ament_prefix_path.dsv
-source;share/doodlebob/hook/ament_prefix_path.sh
-source;../../build/doodlebob/share/doodlebob/hook/pythonpath_develop.ps1
-source;../../build/doodlebob/share/doodlebob/hook/pythonpath_develop.dsv
-source;../../build/doodlebob/share/doodlebob/hook/pythonpath_develop.sh
