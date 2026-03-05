@@ -5,12 +5,15 @@ name = "ur3e-control"
 platforms = ["linux-64"]
 version = "0.1.0"
 
+[activation]
+scripts = ["install/setup.sh"]
+
 [tasks]
 driver = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=192.168.56.101 headless_mode:=true kinematics_params_file:=$PIXI_PROJECT_ROOT/config/myconfig.yaml"
 mock = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=0.0.0.0 use_mock_hardware:=true launch_dashboard_client:=false kinematics_params_file:=$PIXI_PROJECT_ROOT/config/myconfig.yaml"
 test = "ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py"
 moveit = "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur3e"
-test_node = "ros2 launch launch_test_node.launch.py"
+test_node = "ros2 launch doodlebob launch_test_node.launch.py"
 build = "pixi run colcon build --symlink-install"
 
 [dependencies]
