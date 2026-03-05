@@ -4,7 +4,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from moveit_configs_utils import MoveItConfigsBuilder
 
-here = os.path.dirname(os.path.abspath(__file__))
+#here = os.path.dirname(os.path.abspath(__file__))
 
 def generate_launch_description():
     moveit_config = (
@@ -14,7 +14,7 @@ def generate_launch_description():
             mappings={"ur_type": "ur3e"}
         )
         .robot_description_semantic(Path("srdf") / "ur.srdf.xacro", {"name": "ur3e"})
-        .moveit_cpp(file_path=os.path.join(here, "pipeline.yaml"))
+        .moveit_cpp(file_path=os.path.join(os.path.dirname(__file__), "pipeline.yaml"))
         .to_moveit_configs()
     )
 
