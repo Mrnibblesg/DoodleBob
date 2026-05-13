@@ -1,0 +1,31 @@
+running egg_info
+creating build/doodlebob/doodlebob.egg-info
+writing build/doodlebob/doodlebob.egg-info/PKG-INFO
+writing dependency_links to build/doodlebob/doodlebob.egg-info/dependency_links.txt
+writing entry points to build/doodlebob/doodlebob.egg-info/entry_points.txt
+writing requirements to build/doodlebob/doodlebob.egg-info/requires.txt
+writing top-level names to build/doodlebob/doodlebob.egg-info/top_level.txt
+writing manifest file 'build/doodlebob/doodlebob.egg-info/SOURCES.txt'
+reading manifest file 'build/doodlebob/doodlebob.egg-info/SOURCES.txt'
+writing manifest file 'build/doodlebob/doodlebob.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/build/doodlebob/build/lib/doodlebob
+copying doodlebob/__init__.py -> /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/build/doodlebob/build/lib/doodlebob
+copying doodlebob/doodle_test_node.py -> /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/build/doodlebob/build/lib/doodlebob
+running install
+running install_lib
+creating /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/python3.12/site-packages/doodlebob
+copying /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/build/doodlebob/build/lib/doodlebob/__init__.py -> /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/python3.12/site-packages/doodlebob
+copying /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/build/doodlebob/build/lib/doodlebob/doodle_test_node.py -> /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/python3.12/site-packages/doodlebob
+byte-compiling /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/python3.12/site-packages/doodlebob/__init__.py to __init__.cpython-312.pyc
+byte-compiling /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/python3.12/site-packages/doodlebob/doodle_test_node.py to doodle_test_node.cpython-312.pyc
+running install_data
+creating /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/share/ament_index/resource_index/packages
+copying resource/doodlebob -> /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/share/ament_index/resource_index/packages
+copying package.xml -> /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/share/doodlebob
+running install_egg_info
+Copying build/doodlebob/doodlebob.egg-info to /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/python3.12/site-packages/doodlebob-0.0.0-py3.12.egg-info
+running install_scripts
+Installing doodle_test_node script to /home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/install/doodlebob/lib/doodlebob
+writing list of installed files to '/home/Parker/Programming/Robotics/doodlebob_pixi_env_test/src/doodlebob/build/doodlebob/install.log'
