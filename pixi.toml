@@ -9,14 +9,16 @@ version = "0.1.0"
 driver = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=192.168.56.101 headless_mode:=true kinematics_params_file:=$PIXI_PROJECT_ROOT/configs/kinematics_params.yaml"
 mock = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=0.0.0.0 use_mock_hardware:=true launch_dashboard_client:=false kinematics_params_file:=$PIXI_PROJECT_ROOT/configs/kinematics_params.yaml"
 test = "ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py"
+doodle = "ros2 launch doodlebob test_scaled_joint_trajectory_controller.launch.py"
 
 [activation]
 scripts = ["install/setup.sh"]
 
 [dependencies]
+setuptools = "<=58.2.0"
 ros-jazzy-desktop = ">=0.11.0,<0.12"
 colcon-common-extensions = ">=0.3.0,<0.4"
-setuptools = ">=82.0.1,<83"
-ros-jazzy-ur-robot-driver = ">=3.7.0,<4"
-ros-jazzy-ros2controlcli = ">=4.43.0,<5"
+ros-jazzy-ur-robot-driver = ">=3.0.2,<4"
+ros-jazzy-ros2controlcli = ">=4.25.0,<5"
 filelock = ">=3.29.0,<4"
+
