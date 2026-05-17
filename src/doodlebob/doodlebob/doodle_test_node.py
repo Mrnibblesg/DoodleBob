@@ -43,7 +43,8 @@ class PublisherJointTrajectory(Node):
         self.joints = self.get_parameter("joints").value
         self.check_starting_point = self.get_parameter("check_starting_point").value
         self.starting_point = {}
-
+        
+        self.get_logger().info("HELLO WORLD")
         if self.joints is None or len(self.joints) == 0:
             raise Exception('"joints" parameter is not set!')
 
