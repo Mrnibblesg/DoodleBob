@@ -10,7 +10,7 @@ build = "colcon build --symlink-install"
 driver = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=192.168.56.101 headless_mode:=true kinematics_params_file:=$PIXI_PROJECT_ROOT/configs/kinematics_params.yaml"
 mock = "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=0.0.0.0 use_mock_hardware:=true launch_dashboard_client:=false kinematics_params_file:=$PIXI_PROJECT_ROOT/configs/kinematics_params.yaml"
 test = "ros2 launch ur_robot_driver test_scaled_joint_trajectory_controller.launch.py"
-doodle = "ros2 launch doodlebob test_scaled_joint_trajectory_controller.launch.py"
+doodle = "ros2 launch doodlebob test_doodle.launch.py"
 
 [activation]
 scripts = ["install/setup.sh"]

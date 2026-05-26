@@ -19,7 +19,9 @@ def generate_launch_description():
         ]
     )
 
-    # ???
+    # This line and the DeclareLaunchArgument exist so we can make command line overrides.
+    # This LaunchConfiguration line is what pulls from the command line to override stuff.
+    # Maybe a better use case is for the robot's ip.
     check_starting_point = LaunchConfiguration("check_starting_point")
 
     # Our list of actions for this LaunchDescription. We define an argument and then create a node which uses that argument.
@@ -39,6 +41,9 @@ def generate_launch_description():
                 name="publisher_scaled_joint_trajectory_controller",
                 parameters=[
                     position_goals,
+                    # This is set from the command line as from the
+                    # previous DeclareLaunchArgument and LaunchConfiguration.
+                    # This overrides the YAML file.
                     {
                         "check_starting_point": check_starting_point,
                     },

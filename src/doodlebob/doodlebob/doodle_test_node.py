@@ -1,20 +1,3 @@
-# Copyright 2022 Stogl Robotics Consulting UG (haftungsbeschränkt)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# Authors: Denis Štogl, Lovro Ivanov
-#
-
 # Original filepath: .pixi/envs/default/lib/python3.12/site-packages/ros2_controllers_test_nodes/publisher_joint_trajectory_controller.py
 
 
@@ -25,11 +8,37 @@ from builtin_interfaces.msg import Duration
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from sensor_msgs.msg import JointState
 
+# ROS2 devs rely heavily on runtime introspection tools.
+# Viewing a system live is how we discover how things are done.
+# What's there, what types things use, and what interfaces look like.
+# This is how we can discover what packages to use and how to use them.
+
+# To figure out what we're doing from nothing (hopefully)
+# what's running?
+# ros2 node list
+# ros2 control list_controllers
+
+# what does a specific node expose?
+# ros2 node info /passthrough_trajectory_controller
+
+# what actions are available?
+# ros2 action list -t
+
+# what does that action's type's interface look like?
+# ros2 interface show control_msgs/action/FollowJointTrajectory
+
+# Watch it live:
+# ros2 action info /passthrough_trajectory_controller/follow_joint_trajectory
+# ros2 topic echo /joint_states
 
 class PublisherJointTrajectory(Node):
     def __init__(self):
+
         super().__init__("publisher_position_trajectory_controller")
+        # By this point, the parameters defined in the launch file can be registered
+        # with the node for use and then used by using declare_parameter and then get_parameter.
         # Declare all parameters
+        
         self.declare_parameter("controller_name", "position_trajectory_controller")
         self.declare_parameter("wait_sec_between_publish", 6)
         self.declare_parameter("goal_names", ["pos1", "pos2"])
