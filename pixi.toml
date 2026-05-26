@@ -23,3 +23,6 @@ ros-jazzy-ur-robot-driver = ">=3.0.2,<4"
 ros-jazzy-ros2controlcli = ">=4.25.0,<5"
 filelock = ">=3.29.0,<4"
 
+[pypi-dependencies]
+ikpy = ">=3.4.2, <4"
+
