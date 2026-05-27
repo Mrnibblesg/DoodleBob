@@ -1,5 +1,4 @@
 # Original filepath: .pixi/envs/default/lib/python3.12/site-packages/ros2_controllers_test_nodes/publisher_joint_trajectory_controller.py
-
 import rclpy
 from rclpy.node import Node
 from builtin_interfaces.msg import Duration
@@ -7,14 +6,21 @@ from builtin_interfaces.msg import Duration
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from sensor_msgs.msg import JointState
 
+# We'll need:
+# - config file for parameters (joint names, etc.)
+# - Launch file for node setup
+
+# Test 1: Move the tool to a custom start position.
+# Test 2: How do we know where the paper to draw on is? Maybe start with an assumption.
+# Test 3: Test movement trajectory based on an SVG input file. Pass the file on the command line?
+# Integrate moveit?
+
 class PublisherJointTrajectory(Node):
     def __init__(self):
-
         super().__init__("publisher_position_trajectory_controller")
         # By this point, the parameters defined in the launch file can be registered
         # with the node for use and then used by using declare_parameter and then get_parameter.
         # Declare all parameters
-        
         self.declare_parameter("controller_name", "position_trajectory_controller")
         self.declare_parameter("wait_sec_between_publish", 6)
         self.declare_parameter("goal_names", ["pos1", "pos2"])
@@ -183,4 +189,5 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
+
 
