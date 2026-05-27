@@ -33,15 +33,29 @@ class PictureTrajectoryPublisher(Node):
         # By this point, the parameters defined in the launch file can be registered
         # with the node for use and then used by using declare_parameter and then get_parameter.
         # Declare all parameters
+        self.declare_parameter("goal_names", [])
+        self.declare_parameter("goal_publish_delay_seconds", 10)
+        self.declare_parameter("joints", [])
+        self.declare_parameter("controller", "")
+        self.declare_parameter("topic", "")
 
         # Read parameters
-        
+        self.goal_names = self.get_parameter("goal_names").value
+        self.publish_delay = self.get_parameter("goal_publish_delay_seconds").value
+        self.joints = self.get_parameter("joints").value
+        self.controller = self.get_parameter("controller").value
+        self.topic = self.get_parameter("topic").value
+
         self.get_logger().info("HELLO WORLD")
-        controller_name = ""
-        publish_topic = "/" + controller_name + "/" + "joint_trajectory"
-        wait_sec_between_publish = 1
+        
+        self.goals = []
+        for name in self.goal_names:
+            self.declare_parameter(name, rclpy.Parameter.Type.DOUBLE_ARRAY)
+            point = JointTrajectoryPoint()
+        
+        publish_topic = "/" + self.controller + "/" + self.topic
         self.publisher_ = self.create_publisher(JointTrajectory, publish_topic, 1)
-        self.timer = self.create_timer(wait_sec_between_publish, self.timer_callback)
+        self.timer = self.create_timer(self.goal_publish_delay_seconds, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
@@ -56,10 +70,10 @@ class PictureTrajectoryPublisher(Node):
 def main(args=None):
     rclpy.init(args=args)
 
-    publisher_joint_trajectory = PictureTrajectoryPublisher()
+    picture_trajectory_publisher = PictureTrajectoryPublisher()
 
     try:
-        rclpy.spin(publisher_joint_trajectory)
+        rclpy.spin(picture_trajectory_publisher)
     except (KeyboardInterrupt, rclpy.executors.ExternalShutdownException):
         print("Keyboard interrupt received. Shutting down node.")
     except Exception as e:

@@ -1,5 +1,20 @@
 doodlebob_picture_trajectory_publisher:
   ros__parameters:
-    goal_names: ["start"],
+    goal_names: ["start", "end"],
     start:
-      positions: []
+      positions: [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
+    end:
+      positions: [0.785, -1.57, 0.785, 0.785, 0.785, 0.785]
+
+    goal_publish_delay_seconds: 5
+
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+
+    controller: "scaled_joint_trajectory_controller"
+    topic: "joint_trajectory"
