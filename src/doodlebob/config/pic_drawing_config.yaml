@@ -1,0 +1,5 @@
+doodlebob_picture_trajectory_publisher:
+  ros__parameters:
+    goal_names: ["start"],
+    start:
+      positions: []

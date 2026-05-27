@@ -13,9 +13,9 @@ def generate_launch_description():
     # We load the config containing the test goal locations.
     position_goals = PathJoinSubstitution(
         [
-            FindPackageShare("ur_robot_driver"),
+            FindPackageShare("doodlebob"),
             "config",
-            "test_goal_publishers_config.yaml",
+            "default_test_config.yaml",
         ]
     )
 

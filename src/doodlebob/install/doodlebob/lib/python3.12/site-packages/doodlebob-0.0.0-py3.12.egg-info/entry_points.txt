@@ -1,2 +1,0 @@
-[console_scripts]
-doodle_test_node = doodlebob.doodle_test_node:main

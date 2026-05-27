@@ -9,12 +9,13 @@ setup(
     version='0.0.0',
     packages=find_packages(exclude=['test']),
     # The root of this section is .pixi/env/defaults
-    # not sure what the tuples mean or what surrounding them in square brackets does.
+    # Each tuple is (destination, [source_files]).
+    # Files are copied into the 
     data_files=[
-        ('share/ament_index/resource_index/packages',
-            ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
+        ('share/ament_index/resource_index/packages', ['resource/' + package_name]), # ROS boilerplate
+        ('share/' + package_name, ['package.xml']), # ROS boilerplate
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
+        (os.path.join('share', package_name, 'config'), glob('config/*.yaml'))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -29,7 +30,8 @@ setup(
     #    ],
     #},
 
-    # entry_points. I don't know if this is limited to nodes we run manually or if you need to put them here even if nodes are specified from launch files.
+    # entry_points. These are what launch files refer to when you launch a node
+    # and specify the executable. You need an entry here for every node you want to run.
     entry_points={
         'console_scripts': [
             'doodle_test_node = doodlebob.doodle_test_node:main', 
