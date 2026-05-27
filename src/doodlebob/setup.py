@@ -35,6 +35,7 @@ setup(
     entry_points={
         'console_scripts': [
             'doodle_test_node = doodlebob.doodle_test_node:main', 
+            'picture_trajectory = doodlebob.picture_trajectory:main',
         ],
     },
 )

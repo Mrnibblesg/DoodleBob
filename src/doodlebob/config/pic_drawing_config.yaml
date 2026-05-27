@@ -1,6 +1,6 @@
 doodlebob_picture_trajectory_publisher:
   ros__parameters:
-    goal_names: ["start", "end"],
+    goal_names: ["start", "end"]
     start:
       positions: [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
     end:
