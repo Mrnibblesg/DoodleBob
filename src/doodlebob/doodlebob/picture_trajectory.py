@@ -12,18 +12,21 @@ from sensor_msgs.msg import JointState
 
 # To-do (ordered):
 # Test 1: Move the tool to a custom start position.
-# - Define launch file.
-# - Define parameter file to store parameters like positions.
-# Perform test 1.
+# - Define launch file. (DONE)
+# - Define parameter file to store parameters like positions. (DONE)
+# Perform test 1. (DONE)
 
-# Test 2: How do we know where the paper to draw on is? Maybe start with an assumption.
+# Test 2: Integrate an IK solver so we can move the arm to arbitrary points while keeping the end-effector pointed down.
+# - Try ikpy first.
+# - If it's not enough, then moveit.
+
+# Test 3: How do we know where the paper to draw on is? Maybe start with an assumption.
 # - Define a paper size.
 # - Define the paper rotation.
 # - Define the origin of the sheet of paper, ensuring it doesn't intersect with the base of the robot.
-# Perform test 2.
+# Perform test 3: Trace the edges of the drawing area with the robot arm based on define paper size and orientation.
 
-# Test 3: Test movement trajectory based on an SVG input file. Pass the file on the command line?
-# Integrate moveit?
+# Test 4: Test movement trajectory based on an SVG input file. Pass the file on the command line?
 
 class PictureTrajectoryPublisher(Node):
     def __init__(self):
@@ -47,8 +50,6 @@ class PictureTrajectoryPublisher(Node):
         self.controller = self.get_parameter("controller").value
         self.topic = self.get_parameter("topic").value
 
-        self.get_logger().info("HELLO WORLD")
-        
         self.goals = []
         for name in self.goal_names:
             point = JointTrajectoryPoint()
@@ -79,7 +80,6 @@ class PictureTrajectoryPublisher(Node):
     # This one doesn't cause an early exit.
     #def timer_callback(self):
 
-    #    self.get_logger().info(f"Sending goal {self.goals[self.i]}.")
 
     #    traj = JointTrajectory()
     #    traj.joint_names = self.joints
@@ -91,9 +91,7 @@ class PictureTrajectoryPublisher(Node):
 
     # This one does. why??
     def timer_callback(self):
-        # This line causes an early exit...
-        # self.get_logger().info("Publishing goal: " + self.i)
-
+        # self.get_logger().info(f"Sending goal {self.goals[self.i]}.")
         traj = JointTrajectory()
         traj.joint_names = self.joints
         traj.points.append(self.goals[self.i])
