@@ -6,6 +6,8 @@ from builtin_interfaces.msg import Duration
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from sensor_msgs.msg import JointState
 
+import ikpy
+
 # We'll need:
 # - config file for parameters (joint names, etc.)
 # - Launch file for node setup
@@ -51,23 +53,9 @@ class PictureTrajectoryPublisher(Node):
         self.topic = self.get_parameter("topic").value
 
         self.goals = []
-        time_from_start = 3
-        for name in self.goal_names:
-            point = JointTrajectoryPoint()
-            angle_subparam = name + ".angles"
-            
-            # Get the nested joint rotation values
-            self.declare_parameter(name, rclpy.Parameter.Type.DOUBLE_ARRAY)
-            self.declare_parameter(angle_subparam, [float()])
-            positions = self.get_parameter(angle_subparam).value
+        self.load_config_goals()
+        self.get_logger().info(str(self.goals))
 
-            if len(positions) != len(self.joints):
-                raise ValueError(f"Length of joint angle list for goal angles {name} doesn't match actual amount of joints {len(self.joints)}.")
-            point.positions = positions
-            point.time_from_start = Duration(sec=time_from_start)
-            time_from_start += 2
-            self.goals.append(point)
-            
         if len(self.goals) == 0:
             raise Exception("No valid goal found. Exiting.")
 
@@ -81,23 +69,47 @@ class PictureTrajectoryPublisher(Node):
         traj.joint_names = self.joints
         traj.points.extend(self.goals)
         self.publisher_.publish(traj)
+        self.get_logger().info("Finishing, about to exit.")
         exit(0)
         # self.timer = self.create_timer(self.publish_delay, self.timer_callback)
+    
+    def prepare_setpoint_trajectory(self):
+        pass
 
+    def load_config_goals(self):
+        try:
+            time_from_start = 3
+            for name in self.goal_names:
+                point = JointTrajectoryPoint()
+                angle_subparam = name + ".angles"
+                
+                # Get the nested joint rotation values
+                self.declare_parameter(name, rclpy.Parameter.Type.DOUBLE_ARRAY)
+                self.declare_parameter(angle_subparam, [float()])
+                angles = self.get_parameter(angle_subparam).value
+
+                if len(angles) != len(self.joints):
+                    raise ValueError(f"Length of joint angle list for goal angles {name} doesn't match actual amount of joints {len(self.joints)}.")
+                point.positions = angles
+                point.time_from_start = Duration(sec=time_from_start)
+                time_from_start += 2
+                self.goals.append(point)
+        except Exception as e:
+            self.get_logger().error("Encountered an exception", e)
 
     def timer_callback(self):
         # self.get_logger().info(f"Sending goal {self.goals[self.i]}.")
-        traj = JointTrajectory()
-        traj.joint_names = self.joints
-        traj.points.append(self.goals[self.i])
-        self.publisher_.publish(traj)
-        
-        self.i += 1
-        self.i %= len(self.goals)
-
-    def joint_state_callback(self, msg):
-        pass
-
+        try:
+            traj = JointTrajectory()
+            traj.joint_names = self.joints
+            traj.points.append(self.goals[self.i])
+            self.publisher_.publish(traj)
+            
+            self.i += 1
+            self.i %= len(self.goals)
+        except Exception as e:
+            self.get_logger().error("Encountered an exception ", e)
+            exit(1)
 
 def main(args=None):
     rclpy.init(args=args)
