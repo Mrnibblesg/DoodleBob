@@ -51,19 +51,21 @@ class PictureTrajectoryPublisher(Node):
         self.topic = self.get_parameter("topic").value
 
         self.goals = []
+        time_from_start = 3
         for name in self.goal_names:
             point = JointTrajectoryPoint()
-            position_subparam = name + ".positions"
+            angle_subparam = name + ".angles"
             
             # Get the nested joint rotation values
             self.declare_parameter(name, rclpy.Parameter.Type.DOUBLE_ARRAY)
-            self.declare_parameter(position_subparam, [float()])
-            positions = self.get_parameter(position_subparam).value
+            self.declare_parameter(angle_subparam, [float()])
+            positions = self.get_parameter(angle_subparam).value
 
             if len(positions) != len(self.joints):
-                raise ValueError(f"Length of joint angle list for goal position {name} doesn't match actual amount of joints {len(self.joints)}.")
+                raise ValueError(f"Length of joint angle list for goal angles {name} doesn't match actual amount of joints {len(self.joints)}.")
             point.positions = positions
-            point.time_from_start = Duration(sec=4)
+            point.time_from_start = Duration(sec=time_from_start)
+            time_from_start += 2
             self.goals.append(point)
             
         if len(self.goals) == 0:
@@ -73,23 +75,16 @@ class PictureTrajectoryPublisher(Node):
         self.i = 0
 
 
-
         self.get_logger().info("Starting loop")
         self.publisher_ = self.create_publisher(JointTrajectory, publish_topic, 1)
-        self.timer = self.create_timer(self.publish_delay, self.timer_callback)
-    # This one doesn't cause an early exit.
-    #def timer_callback(self):
+        traj = JointTrajectory()
+        traj.joint_names = self.joints
+        traj.points.extend(self.goals)
+        self.publisher_.publish(traj)
+        exit(0)
+        # self.timer = self.create_timer(self.publish_delay, self.timer_callback)
 
 
-    #    traj = JointTrajectory()
-    #    traj.joint_names = self.joints
-    #    traj.points.append(self.goals[self.i])
-    #    self.publisher_.publish(traj)
-
-    #    self.i += 1
-    #    self.i %= len(self.goals)
-
-    # This one does. why??
     def timer_callback(self):
         # self.get_logger().info(f"Sending goal {self.goals[self.i]}.")
         traj = JointTrajectory()

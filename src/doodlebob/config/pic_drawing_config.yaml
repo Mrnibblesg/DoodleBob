@@ -2,11 +2,11 @@ doodlebob_picture_trajectory_publisher:
   ros__parameters:
     goal_names: ["end", "p1", "start"]
     start:
-      positions: [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
+      angles: [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
     p1:
-      positions: [1.57, -1.57, 1.57, 1.57, 1.57, 1.57]
+      angles: [1.57, -1.57, 1.57, 1.57, 1.57, 1.57]
     end:
-      positions: [0.785, -1.57, 0.785, 0.785, 0.785, 0.785]
+      angles: [0.785, -1.57, 0.785, 0.785, 0.785, 0.785]
 
 
     goal_publish_delay_seconds: 5
