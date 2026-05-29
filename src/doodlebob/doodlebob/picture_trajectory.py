@@ -53,7 +53,7 @@ class PictureTrajectoryPublisher(Node):
         self.topic = self.get_parameter("topic").value
 
         self.goals = []
-        self.load_config_goals()
+        self.prepare_setpoint_trajectory()
         self.get_logger().info(str(self.goals))
 
         if len(self.goals) == 0:
@@ -63,7 +63,6 @@ class PictureTrajectoryPublisher(Node):
         self.i = 0
 
 
-        self.get_logger().info("Starting loop")
         self.publisher_ = self.create_publisher(JointTrajectory, publish_topic, 1)
         traj = JointTrajectory()
         traj.joint_names = self.joints
@@ -71,11 +70,19 @@ class PictureTrajectoryPublisher(Node):
         self.publisher_.publish(traj)
         self.get_logger().info("Finishing, about to exit.")
         exit(0)
-        # self.timer = self.create_timer(self.publish_delay, self.timer_callback)
     
+    # Use the IK solver to generate trajectories.
+    # To use this, we must have passed in the URDF path.
     def prepare_setpoint_trajectory(self):
+        try:
+            self.declare_parameter("urdf_path", "")
+            self.urdf_path = self.get_parameter("urdf_path").value
+            self.get_logger().info("URDF file: " + self.urdf_path)
+        except Exception as e:
+            self.get_logger().error("Encountered an exception", e)
         pass
 
+    # TODO: Turn this into a generic function to accept joint angle points and add to the full trajectory
     def load_config_goals(self):
         try:
             time_from_start = 3
