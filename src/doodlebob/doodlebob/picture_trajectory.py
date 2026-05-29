@@ -6,7 +6,8 @@ from builtin_interfaces.msg import Duration
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from sensor_msgs.msg import JointState
 
-import ikpy
+from ikpy.chain import Chain
+import numpy as np
 
 # We'll need:
 # - config file for parameters (joint names, etc.)
@@ -73,14 +74,50 @@ class PictureTrajectoryPublisher(Node):
     
     # Use the IK solver to generate trajectories.
     # To use this, we must have passed in the URDF path.
+    # Only handles setpoints defined as goal points, not joint angles.
     def prepare_setpoint_trajectory(self):
-        try:
-            self.declare_parameter("urdf_path", "")
-            self.urdf_path = self.get_parameter("urdf_path").value
-            self.get_logger().info("URDF file: " + self.urdf_path)
-        except Exception as e:
-            self.get_logger().error("Encountered an exception", e)
-        pass
+        self.declare_parameter("urdf_path", "")
+        self.urdf_path = self.get_parameter("urdf_path").value
+
+        self.get_logger().info("URDF file: " + self.urdf_path)
+        # Load ikpy chain from URDF file. Then, generate joint trajectories from points in config, adding them to the goal
+        chain = Chain.from_urdf_file(
+            self.urdf_path,
+            active_links_mask=[False, False, True, True, True, True, True, True, False] # Derived from the following two lines
+        )
+        # links = [(l.name, l.has_rotation) for l in chain.links]
+        # self.get_logger().info(f"Active links: {str(links)}")
+
+
+
+        time = 3
+        self.declare_parameter("pen_tip_dist", rclpy.Parameter.Type.DOUBLE)
+        self.pen_tip_dist = self.get_parameter("pen_tip_dist").value
+        for name in self.goal_names:
+            point_subparam = name + ".point"
+            point = JointTrajectoryPoint()
+            self.declare_parameter(name, rclpy.Parameter.Type.DOUBLE_ARRAY)
+            self.declare_parameter(point_subparam, [float()])
+            goal_coords = self.get_parameter(point_subparam).value + [self.pen_tip_dist]
+            
+            target = self.make_target_frame(*goal_coords[:3])
+            angles = chain.inverse_kinematics_frame(target, orientation_mode="Z")[2:8] # Only keep active links
+            # angles = chain.inverse_kinematics(goal_coords)[2:8]
+            point.positions = angles
+            point.time_from_start = Duration(sec=time)
+
+            self.goals.append(point)
+            time += 2
+
+    def make_target_frame(self, x, y, z):
+        # End-effector pointing straight down: Z-axis of EE = world -Z
+        frame = np.eye(4)
+        frame[:3, 3] = [x, y, z]          # position
+        frame[:3, 2] = [0, 0, 1]         # EE z-axis points world-down
+        frame[:3, 0] = [1, 0, 0]          # EE x-axis
+        frame[:3, 1] = [0, -1, 0]         # EE y-axis
+        return frame
+
 
     # TODO: Turn this into a generic function to accept joint angle points and add to the full trajectory
     def load_config_goals(self):
