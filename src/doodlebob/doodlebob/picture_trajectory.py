@@ -107,6 +107,8 @@ class PictureTrajectoryPublisher(Node):
 
 
                 # Set the final values and continue to the next goal.
+                #TODO Apply time scaling depending on how far the step actually is. Time must be an int,
+                # but there is a nanoseconds field.
                 goal.positions = angles
                 goal.time_from_start = Duration(sec=time)
                 
@@ -114,21 +116,23 @@ class PictureTrajectoryPublisher(Node):
                 time += 1
                 prev_angles = raw_angles
 
-    # Return a list of checkpoints at an interval from from_pt to to_pt, excluding the initial point.
-    def interpolate_to_goal(self, from_pt, to_pt, interval):
-        from_pt = np.array(from_pt)
-        to_pt = np.array(to_pt)
-        checkpoints = []
-
-        displacement = to_pt - from_pt
-        step = (displacement / np.linalg.norm(displacement)) * interval
-
-        next = from_pt
-        while np.linalg.norm(to_pt - next) > interval:
+    # Return a list of points resulting from an interpolated cartesian trajectory
+    # between start and end, each point separated by interval
+    def interpolate_trajectory(self, start, end, interval=0.025):
+        start = np.array(start)
+        end = np.array(end)
+        points = []
+        difference = end - start
+        dist = np.linalg.norm(difference)
+        step = (difference / dist) * interval
+        
+        next = start
+        while (np.linalg.norm(end - next) >= interval):
             next += step
-            checkpoints.append(next)
-
-        return checkpoints + [to_pt]
+            points.append(next)
+        
+        points.append(end)
+        return points
 
     # Use the IK solver to generate trajectories.
     # To use this, we must have passed in the URDF path.
