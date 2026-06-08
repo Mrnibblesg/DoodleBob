@@ -17,6 +17,7 @@ doodlebob_picture_trajectory_publisher:
       point: [0.2, 0.2]
     c4:
       point: [0.2, 0.1]
+
     # Acts as a z coordinate.
     pen_tip_dist: 0.15 # meters?
 
