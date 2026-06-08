@@ -14,7 +14,7 @@ import numpy as np
 # Perform test 2: Move robot arm so end-effector goals reach the corners of a square. (DONE)
 
 # Test 2.5: Create an ikpy helper script to visualize paths compared to the checkpoints.
-# - For debug.
+# - For debug. (DONE)
 
 # Test 3: How do we know where the paper to draw on is? Maybe start with an assumption.
 # - Define a paper size.
@@ -118,7 +118,7 @@ class PictureTrajectoryPublisher(Node):
 
     # Return a list of points resulting from an interpolated cartesian trajectory
     # between start and end, each point separated by interval
-    def interpolate_trajectory(self, start, end, interval=0.025):
+    def interpolate_to_goal(self, start, end, interval=0.025):
         start = np.array(start)
         end = np.array(end)
         points = []
@@ -129,7 +129,7 @@ class PictureTrajectoryPublisher(Node):
         next = start
         while (np.linalg.norm(end - next) >= interval):
             next += step
-            points.append(next)
+            points.append(next.copy())
         
         points.append(end)
         return points

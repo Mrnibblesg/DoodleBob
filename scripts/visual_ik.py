@@ -4,9 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 c1 = [0.1, 0.1, 0.15]
-c2 = [0.1, 0.3, 0.15]
-c3 = [0.3, 0.3, 0.15]
-c4 = [0.3, 0.1, 0.15]
+c2 = [0.1, 0.6, 0.15]
+c3 = [0.6, 0.6, 0.15]
+c4 = [0.6, 0.1, 0.15]
 targets = [c1, c2, c3, c4, c1]
 
 start_conf = [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
@@ -16,10 +16,10 @@ def main():
 
     chain = ikpy.chain.Chain.from_urdf_file("../configs/ur3e.urdf")
     
-    print(f"Link amount: {len(chain.links)}")
-    print("Names:")
-    for link in chain.links:
-        print(f"{link.name}")
+    #print(f"Link amount: {len(chain.links)}")
+    #print("Names:")
+    #for link in chain.links:
+    #    print(f"{link.name}")
     
     all_targets = [targets[0]]
 
@@ -51,9 +51,10 @@ def interpolate_trajectory(start, end, interval=0.025):
     next = start
     while (np.linalg.norm(end - next) >= interval):
         next += step
-        points.append(next)
+        points.append(next.copy())
     
     points.append(end)
+    print(points)
     return points
 
 def make_target_frame(x, y, z):

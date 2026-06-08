@@ -8,14 +8,15 @@ doodlebob_picture_trajectory_publisher:
     end:
       angles: [0.785, -1.57, 0.785, 0.785, 0.785, 0.785]
     # Corners of the paper. We used joint angles previously, we want to use points.
+    # I think these still make it go out of bounds.
     c1:
       point: [0.1, 0.1]
     c2:
-      point: [0.1, 0.3]
+      point: [0.1, 0.2]
     c3:
-      point: [0.3, 0.3]
+      point: [0.2, 0.2]
     c4:
-      point: [0.3, 0.1]
+      point: [0.2, 0.1]
     # Acts as a z coordinate.
     pen_tip_dist: 0.15 # meters?
 
